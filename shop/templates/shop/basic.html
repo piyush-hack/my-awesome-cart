@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
+
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://getbootstrap.com/docs/4.3/assets/css/docs.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+
+
+    <title>{% block title %} {% endblock %}</title>
+
+  </head>
+  <style>
+    {% block style %} {% endblock %}
+</style>
+
+
+<body>
+{% load static %}
+<!--  navigation bar code starts here-->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+	<a class="navbar-brand" href="#">My Daily Cart<h5>{% block button3 %} {%endblock%}</h5></a>
+		{% block button2 %} {%endblock%}
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+				<button type="button" id="popover" class="btn btn-lg btn-danger" data-toggle="popover"
+				title="Cart details"
+				data-bs-html="true" data-bs-content="And here's some amazing content. It's very engaging. Right?">Cart(<span id="cartx">0</span>)</button>
+			</li>
+			<li class="nav-item active">
+				<a href="/shop/contact" class="btn btn-primary" style="margin-left:1vw;margin-top:0.5vw">CONTACT US</a>
+			</li>
+
+		</ul>
+		<form class="form-inline my-2 my-lg-0">
+			<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+		</form>
+	</div>
+</nav>
+    <!--nav bar code ends here-->
+    <div style="height:5vw"></div>
+
+    {% block body %} {% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% block js %} {% endblock%}
+  </body>
+</html>

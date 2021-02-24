@@ -1,0 +1,356 @@
+{% extends 'shop/basic.html' %}
+{% block title %} my demand {%endblock%}
+{% block style %}
+
+    body {
+    background-color: #505356;
+        color:black;
+
+    }
+    .image-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    {% endblock %}
+
+
+
+<!--  crousel code starts here-->
+    {% block body %}
+        {% load static %}
+        {% for product, range, nSlides in allProds %}
+
+        <h1 style="color:white">{{product.0.category}} on 50%off sale - recommended sale</h1>
+
+        <div id="carouselExampleCaptions{{forloop.counter}}" class="col carousel slide" data-bs-ride="carousel" >
+
+          <div class="carousel-inner" >
+
+            <div class="carousel-item active">
+
+
+              {% for i in product|slice:"1:" %}
+
+              <div style="float:left;width:43vw;max-height:500px;background-color:white;margin-left:2vw;border-radius:5px;border-color: red rgba(170, 50, 220, .6) green;box-shadow: 5px 10px #888888;">
+                  <div style="height:25vw;padding-left:10vw;padding-top:4vw">
+                      <img src="/media/{{i.image}}" class="d-block" style="width:50%;height:auto;" alt="...">
+                  </div>
+                  <div style="padding-left:2vw;padding-top:4vw">
+                    <h5 id="namepr{{i.id}}">{{i}}</h5>
+                     <a href="#" class="btn btn-primary"  style="background-color:orange">Price :{{i.price}}</a>
+
+
+                    <p>{{i.desc}}...</p>
+                      <button type="submit" class="btn btn-primary cartx" id="pr{{i.id}}" style="float:left;margin-bottom:1vw;background-color:orange"><h2>+</h2></button>
+                      <span class="prcount" style="display:none">{{i.id}}</span>
+                      <button type="submit" class="btn btn-primary cartx"  style="float:left;margin-bottom:1vw;background-color:blue">
+                          <h2 class="ordercount" id="ordercountpr{{i.id}}">0</h2>
+                      </button>
+                      <button type="submit" class="btn btn-primary delcartx" id="{{i.id}}" style="float:left;margin-bottom:1vw;background-color:orange"><h2>-</h2></button>
+                      <a href="/shop/prodView/{{i.id}}" id="qv{{i.id}}" class="btn btn-primary" style="margin-bottom:1vw;margin-left:1vw">More</a>
+
+
+
+
+                  </div>
+
+              </div>
+
+              {% if forloop.counter|divisibleby:2 and forloop.counter > 0 and not forloop.last %}
+              </div>
+              <div class="carousel-item">
+              {% endif%}
+
+              {% endfor %}
+                </div>
+
+          </div>
+
+
+          <a class="carousel-control-prev" href="#carouselExampleCaptions{{forloop.counter}}" style="width:5vw" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleCaptions{{forloop.counter}}" style="width:10vw" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </a>
+        </div>
+
+
+        {% endfor %}
+
+        <div style="height:5vw">sdfgh</div>
+    {% endblock %}
+
+    {% block js %}
+
+    <script>
+    console.log("working")
+    $(document).ready(function(){
+      $('#popover').popover();
+    });
+
+    if(localStorage.getItem('cartx') == null){
+    var cartx = {};
+        console.log("workingif")
+
+    }else{
+    cartx = JSON.parse(localStorage.getItem('cartx'));
+    console.log("workingelse")
+
+    var total = 0;
+    for(var item in cartx){
+    if(cartx[item][0] != undefined) {
+        total += cartx[item][0];
+        console.log("counted after deleting")
+    }
+    }
+    document.getElementById('cartx').innerHTML = total;
+
+
+    var index = 0;
+    var someElementsItems = document.querySelectorAll(".prcount");
+    console.log("toatal products " + someElementsItems[someElementsItems.length-1].innerHTML)
+    var prcount = someElementsItems[someElementsItems.length -1].innerHTML;
+
+
+
+    for(var i=0; i<=prcount;i++){
+        if(document.getElementsByClassName('ordercount')[i] != undefined){
+        var idstr = document.getElementsByClassName('ordercount')[i].id;
+        }else{
+        break;
+        }
+
+        for(var j=0; j<Object.keys(cartx).length; j++){
+
+            if(Object.keys(cartx)[j] == idstr.slice(10) & Object.values(cartx)[j][0] != null) {
+                document.getElementById(idstr).innerHTML = Object.values(cartx)[j][0];
+                console.log("0 ka chocla")
+                break;
+            }else if(Object.values(cartx)[j][0] == null){
+                document.getElementById(idstr).innerHTML = 0;
+                console.log("setting 0 when null")
+            }else{
+
+            }
+        }
+    }
+
+    updatePopover(cartx);
+    function updatePopover(cartx)
+    {
+        console.log("updating cartx")
+        var popStr = "";
+        popStr = popStr + "<h5> Cartx for my items in my shopping cartx </h5><div class='mx-2 my-2'>";
+        var i = 1;
+        for (var item in cartx){
+        if(cartx[item][0] > 0){
+            popStr = popStr + "<b>" + i + "</b>. ";
+            popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cartx[item][0] + '<br>';
+            i = i+1;
+            }
+        }
+        console.log(popStr)
+        popStr = popStr + "</div>"
+        document.getElementById('popover').setAttribute('data-bs-content', popStr);
+    }
+
+
+
+    }
+
+
+
+    $('.cartx').click(function(){
+
+    var idstr= this.id.toString();
+    console.log(idstr);
+
+
+
+
+    if(cartx[idstr] != undefined && cartx[idstr][0] != undefined ) {
+
+    qty = cartx[idstr][0] + 1;
+    name = document.getElementById('name'+idstr).innerHTML
+    cartx[idstr] = [qty, name];
+
+    var total = 0;
+    for(var item in cartx){
+    if(cartx[item][0] != undefined) {
+        total += cartx[item][0];
+
+    }
+    }
+    document.getElementById('cartx').innerHTML = total;
+
+    var index = 0;
+    for(var i=0; i<Object.keys(cartx).length; i++){
+        if(Object.keys(cartx)[i] == idstr){
+            index = i;
+            console.log("index fixed")
+            break;
+        }else{
+            index = -1;
+        }
+    }
+
+    document.getElementById('cartx').innerHTML = total;
+    console.log(Object.values(cartx)[index][0])
+    document.getElementById('ordercount' + idstr).innerHTML = Object.values(cartx)[index][0];
+    updatePopover(cartx);
+    function updatePopover(cartx)
+    {
+        console.log("updating cartx")
+        var popStr = "";
+        popStr = popStr + "<h5> Cartx for my items in my shopping cartx </h5><div class='mx-2 my-2'>";
+        var i = 1;
+        for (var item in cartx){
+        if(cartx[item][0] > 0){
+            popStr = popStr + "<b>" + i + "</b>. ";
+            popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cartx[item][0] + '<br>';
+            i = i+1;
+            }
+        }
+        console.log(popStr)
+        popStr = popStr + "</div>"
+        document.getElementById('popover').setAttribute('data-bs-content', popStr);
+        $('#popover').popover('show');
+    }
+
+
+    }
+    else{
+    qty = 1;
+    name = document.getElementById('name'+idstr).innerHTML
+    cartx[idstr] = [qty, name];
+    var total = 0;
+    for(var item in cartx){
+    if(cartx[item][0] != undefined) {
+        total += cartx[item][0];
+    }
+    }
+    document.getElementById('cartx').innerHTML = total;
+    document.getElementById('ordercount' + idstr).innerHTML = 1;
+
+    updatePopover(cartx);
+    function updatePopover(cartx)
+    {
+        console.log("updating cartx")
+        var popStr = "";
+        popStr = popStr + "<h5> Cartx for my items in my shopping cartx </h5><div class='mx-2 my-2'>";
+        var i = 1;
+        for (var item in cartx){
+        if(cartx[item][0] > 0){
+            popStr = popStr + "<b>" + i + "</b>. ";
+            popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cartx[item][0] + '<br>';
+            i = i+1;
+            }
+        }
+        console.log(popStr)
+        popStr = popStr + "</div>"
+        document.getElementById('popover').setAttribute('data-bs-content', popStr);
+        $('#popover').popover('show');
+    }
+
+
+    }
+    console.log(cartx);
+    localStorage.setItem('cartx', JSON.stringify(cartx));
+
+
+
+    });
+
+
+
+
+
+    $('.delcartx').click(function(){
+
+    var delidstr= this.id.toString();
+    var idstr = "pr" + delidstr
+    var index = 0;
+    for(var i=0; i<Object.keys(cartx).length; i++){
+        if(Object.keys(cartx)[i] == idstr){
+            index = i;
+            console.log("index fixed")
+            break;
+        }else{
+            index = -1;
+        }
+    }
+
+
+
+    console.log(idstr);
+    if(Object.values(cartx)[index][0] != undefined) {
+        if(Object.values(cartx)[index][0] < 2 ){
+            cartx[idstr][0] = undefined;
+            cartx[idstr][1] = undefined;
+        }else{
+            cartx[idstr][0] = cartx[idstr][0]-1;
+        }
+
+    var total = 0;
+    for(var item in cartx){
+    if(cartx[item][0] != undefined) {
+        total += cartx[item][0];
+        console.log("counted after deleting")
+    }
+    }
+    document.getElementById('cartx').innerHTML = total;
+    if(Object.values(cartx)[index][0] >0) {
+    document.getElementById('ordercount' + idstr).innerHTML = Object.values(cartx)[index][0];
+    }else{
+    document.getElementById('ordercount' + idstr).innerHTML = 0;
+    }
+    updatePopover(cartx);
+    function updatePopover(cartx)
+    {
+        console.log("updating cartx")
+        var popStr = "";
+        popStr = popStr + "<h5> Cartx for my items in my shopping cartx </h5><div class='mx-2 my-2'>";
+        var i = 1;
+        for (var item in cartx){
+            if(cartx[item][0] > 0){
+            popStr = popStr + "<b>" + i + "</b>. ";
+            popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cartx[item][0] + '<br>';
+            i = i+1;
+            }
+        }
+        console.log(popStr)
+        popStr = popStr + "</div>"
+        document.getElementById('popover').setAttribute('data-bs-content', popStr);
+        $('#popover').popover('show');
+    }
+
+
+    }
+    else{
+    console.log("don't exists");
+
+
+    }
+    console.log(cartx);
+
+    localStorage.setItem('cartx', JSON.stringify(cartx));
+
+
+
+    });
+
+
+
+
+
+
+
+    </script>
+
+
+
+    {% endblock%}
