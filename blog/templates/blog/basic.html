@@ -27,37 +27,28 @@
   <style>
     {% block style %} {% endblock %}
 </style>
-
-
 <body>
+
 {% load static %}
 <!--  navigation bar code starts here-->
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-	<a class="navbar-brand" href="#">My Daily Cart</a>
+	<a class="navbar-brand" href="#">My Daily Cart<h5>{% block button3 %} {%endblock%}</h5></a>
 		{% block button2 %} {%endblock%}
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 
-
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<button type="button" id="popover" class="btn btn-lg btn-danger" data-toggle="popover"
-				title="Cart details"
-				data-bs-html="true" data-bs-content="And here's some amazing content. It's very engaging. Right?">Cart(<span id="cartx">0</span>)</button>
-			</li>
+
 			<li class="nav-item active">
 				<a href="/shop/contact" class="btn btn-primary" style="margin-left:1vw;margin-top:0.5vw">CONTACT US</a>
 			</li>
-			<li class="nav-item active">
-			<a href="/shop/checkout" class="btn btn-primary" style="margin-left:1vw;margin-top:0.5vw">CHECKOUT</a>
-			</li>
 
 		</ul>
-		<form method='get' action='/shop/search/' class="form-inline my-2 my-lg-0">
-		  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
-		  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+		<form class="form-inline my-2 my-lg-0">
+			<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 		</form>
 	</div>
 </nav>
@@ -68,8 +59,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     {% block js %} {% endblock%}
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v10.0" nonce="KXV09tlg"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 {% extends 'shop/basic.html' %}
 {% block title %} my demand {%endblock%}
-{% block button1 %}  <a href="/shop/checkout" class="btn btn-primary" style="margin-left:1vw;margin-top:0.5vw">CHECKOUT</a>
+{% block button1 %}
 {%endblock%}
 {% block style %}
 
@@ -42,7 +42,7 @@
                   </div>
                   <div style="padding-left:2vw;padding-top:4vw">
                     <h5 id="namepr{{i.id}}">{{i}}</h5>
-                     <a href="#" class="btn btn-primary"  style="background-color:orange;max-height:5vw;max-width:10vw;font-size:1.3vw">Price :{{i.price}}</a>
+                     <a href="#" class="btn btn-primary" id="pricepr{{i.id}}" style="background-color:orange;max-height:5vw;max-width:10vw;font-size:1.3vw">{{i.price}}</a>
 
 
                     <p>{{i.desc}}</p>
@@ -189,7 +189,8 @@
 
     qty = cartx[idstr][0] + 1;
     name = document.getElementById('name'+idstr).innerHTML;
-    cartx[idstr] = [qty, name];
+    price = document.getElementById('price'+ idstr).innerHTML
+    cartx[idstr] = [qty, name, price];
 
     var total = 0;
     for(var item in cartx){
@@ -239,7 +240,8 @@
     else{
     qty = 1;
     name = document.getElementById('name'+idstr).innerHTML
-    cartx[idstr] = [qty, name];
+    price = document.getElementById('price'+ idstr).innerHTML
+    cartx[idstr] = [qty, name, price];
     var total = 0;
     for(var item in cartx){
     if(cartx[item][0] != undefined) {
